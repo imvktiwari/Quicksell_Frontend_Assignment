@@ -1,61 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { TiThList } from "react-icons/ti";
-import "./TopNav.css";
-import { useDispatch, useSelector} from "react-redux";
-import { selectData } from "../../Actions/DataAction";
+import "./Header.css";
+import { useDispatch, useSelector } from "react-redux";
+import { selectData } from "../../../Actions/DataAction";
 
 const getGroup = () => {
-  // console.log(localStorage.getItem("group"));
 
-  if(localStorage.getItem("group")){
+  if (localStorage.getItem("group")) {
     return localStorage.getItem("group");
-  }else{
+  } else {
     return "status";
   }
 }
 
 const getOrder = () => {
-  if(localStorage.getItem("order")){
+  if (localStorage.getItem("order")) {
     return localStorage.getItem("order");
-  }else{
+  } else {
     return "priority";
   }
 }
-const TopNav = () => {
+const Header = () => {
   const [displayOnClick, setDisplayOnClick] = useState(false);
   const dispatch = useDispatch();
-  const {allTickets, allUser} = useSelector(state => state.DataReducer);
+  const { allTickets, allUser } = useSelector(state => state.DataReducer);
   const [groupValue, setGroupValue] = useState(getGroup());
   const [orderValue, setOrderValue] = useState(getOrder());
 
   const handleGroupValue = (e, valueBool) => {
-    if(valueBool){
+    if (valueBool) {
       setGroupValue(e.target.value);
       setDisplayOnClick(!displayOnClick);
       localStorage.setItem("group", e.target.value);
-    }else{
+    } else {
       setOrderValue(e.target.value);
-    setDisplayOnClick(!displayOnClick);
-    localStorage.setItem("order", e.target.value);
+      setDisplayOnClick(!displayOnClick);
+      localStorage.setItem("order", e.target.value);
     }
   }
 
   useEffect(() => {
-    if(groupValue === 'user'){
+    if (groupValue === 'user') {
       dispatch(selectData(groupValue, {
         allTickets, allUser
       }, orderValue))
-    }else{
+    } else {
       dispatch(selectData(groupValue, allTickets, orderValue));
     }
   }, [allTickets, dispatch, groupValue, allUser, orderValue]);
- 
-  
+
+
   return (
-    <div className="top-header" style={{paddingLeft : "10px"}}>
+    <div className="topheader" >
       <div className="displayButton">
         <button
-          className="p-10 f-16 btn"
+          className="headerButton"
           onClick={() => setDisplayOnClick(!displayOnClick)}
         >
           {" "}
@@ -63,8 +62,8 @@ const TopNav = () => {
         </button>
         {displayOnClick && (
           <>
-            <div className="dropOnClick flex-gap-10 p-10">
-              <div className="selectGroup flex-sb">
+            <div className="dropOnClick">
+              <div className="selectGroup">
                 <span>Grouping</span>
                 <select value={groupValue} onChange={(e) => handleGroupValue(e, true)} className="selectStyle" name="group" id="group">
                   <option value="status">Status</option>
@@ -72,7 +71,7 @@ const TopNav = () => {
                   <option value="priority">Priority</option>
                 </select>
               </div>
-              <div className="selectGroup flex-sb">
+              <div className="selectGroup">
                 <span>Ordering</span>
                 <select value={orderValue} onChange={(e) => handleGroupValue(e, false)} className="selectStyle" name="order" id="order">
                   <option value="priority">Priority</option>
@@ -87,4 +86,4 @@ const TopNav = () => {
   );
 };
 
-export default TopNav;
+export default Header;

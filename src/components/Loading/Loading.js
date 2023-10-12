@@ -17,7 +17,7 @@ const Loading = () => {
       <Circles
         height="80"
         width="80"
-        color="#4fa94d"
+        color="black"
         ariaLabel="circles-loading"
         wrapperStyle={{}}
         wrapperClass=""
@@ -25,12 +25,12 @@ const Loading = () => {
       />{" "}
       <span
         style={{
-          color: "green",
+          color: "black",
           fontWeight: "bolder",
           letterSpacing: "2px",
         }}
       >
-        QuickSell
+        Prakhar Pratap Mall
       </span>
     </div>
   );
